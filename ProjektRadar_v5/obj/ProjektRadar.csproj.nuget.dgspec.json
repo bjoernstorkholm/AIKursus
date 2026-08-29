@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bjoer\\Desktop\\ai_kursus\\ProjektRadar\\ProjektRadar_v5\\ProjektRadar.csproj": {}
+    "C:\\Users\\bjoer\\Desktop\\ai_kursus\\ProjektRadar\\githubtest\\AIKursus\\ProjektRadar\\AIKursus\\ProjektRadar_v5\\ProjektRadar.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bjoer\\Desktop\\ai_kursus\\ProjektRadar\\ProjektRadar_v5\\ProjektRadar.csproj": {
+    "C:\\Users\\bjoer\\Desktop\\ai_kursus\\ProjektRadar\\githubtest\\AIKursus\\ProjektRadar\\AIKursus\\ProjektRadar_v5\\ProjektRadar.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bjoer\\Desktop\\ai_kursus\\ProjektRadar\\ProjektRadar_v5\\ProjektRadar.csproj",
+        "projectUniqueName": "C:\\Users\\bjoer\\Desktop\\ai_kursus\\ProjektRadar\\githubtest\\AIKursus\\ProjektRadar\\AIKursus\\ProjektRadar_v5\\ProjektRadar.csproj",
         "projectName": "ProjektRadar",
-        "projectPath": "C:\\Users\\bjoer\\Desktop\\ai_kursus\\ProjektRadar\\ProjektRadar_v5\\ProjektRadar.csproj",
+        "projectPath": "C:\\Users\\bjoer\\Desktop\\ai_kursus\\ProjektRadar\\githubtest\\AIKursus\\ProjektRadar\\AIKursus\\ProjektRadar_v5\\ProjektRadar.csproj",
         "packagesPath": "C:\\Users\\bjoer\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bjoer\\Desktop\\ai_kursus\\ProjektRadar\\ProjektRadar_v5\\obj\\",
+        "outputPath": "C:\\Users\\bjoer\\Desktop\\ai_kursus\\ProjektRadar\\githubtest\\AIKursus\\ProjektRadar\\AIKursus\\ProjektRadar_v5\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
