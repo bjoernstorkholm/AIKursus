@@ -1,0 +1,10 @@
+wwwroot\app.css
+wwwroot\demo\Architecture-Messy-Demofiler.zip
+wwwroot\demo\Project-Aurora-Demofiler.zip
+wwwroot\js\projektradar.js
+C:\Users\bjoer\.nuget\packages\microsoft.aspnetcore.app.internal.assets\10.0.5\build\..\_framework\blazor.web.js
+C:\Users\bjoer\.nuget\packages\microsoft.aspnetcore.app.internal.assets\10.0.5\build\..\_framework\blazor.server.js
+C:\Users\bjoer\Desktop\ai_kursus\ProjectRadar_v3\ProjektRadar\wwwroot\app.css
+C:\Users\bjoer\Desktop\ai_kursus\ProjectRadar_v3\ProjektRadar\wwwroot\js\projektradar.js
+C:\Users\bjoer\.nuget\packages\microsoft.aspnetcore.app.internal.assets\10.0.5\_framework\blazor.web.js
+C:\Users\bjoer\.nuget\packages\microsoft.aspnetcore.app.internal.assets\10.0.5\_framework\blazor.server.js

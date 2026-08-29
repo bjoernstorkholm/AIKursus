@@ -1,0 +1,14 @@
+syntax = "proto3";
+package aurora.events;
+
+// Experimental envelope concept. NOT approved.
+message EventEnvelope {
+  string event_id = 1;
+  string correlation_id = 2;
+  string schema_version = 3;
+  string event_name = 4;
+  bytes payload = 5;
+}
+
+// Open question: JSON events are already planned on Service Bus.
+// Is this just documentation of common fields or are we actually using protobuf?

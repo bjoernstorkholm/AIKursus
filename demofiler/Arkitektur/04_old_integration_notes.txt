@@ -1,0 +1,11 @@
+OLD integration notes - probably from Q1
+
+Internal service calls use X-API-Key from Key Vault.
+Do not overcomplicate with OAuth until identity project is ready.
+
+Messaging: architecture group originally preferred Kafka because other programme uses it.
+Could publish order.created to kafka topic aurora.order.events.
+
+Customer Registry sometimes takes 10-12 sec. Set timeout 15 sec and retry 3 times.
+
+NOTE: check all of this before implementation - may have changed.

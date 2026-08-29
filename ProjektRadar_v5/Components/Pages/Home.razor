@@ -1,0 +1,867 @@
+@page "/"
+@rendermode InteractiveServer
+@inject DemoAnalysisService DemoAnalysis
+@inject ArchitectureAnalysisService ArchitectureAnalysis
+@inject PdfExportService PdfExport
+@inject IJSRuntime JS
+
+<PageTitle>@(_mode == AppMode.ProjectControl ? "ProjektRadar – projektets risici i ét ledelsesoverblik" : "ProjektRadar – specifikationsrod samlet til udvikleroverblik")</PageTitle>
+
+<header class="topbar">
+    <div class="nav-shell">
+        <a class="brand" href="#top" aria-label="ProjektRadar forside">
+            <span class="radar-mark" aria-hidden="true">
+                <span class="radar-ring radar-ring-1"></span>
+                <span class="radar-ring radar-ring-2"></span>
+                <span class="radar-sweep"></span>
+                <span class="radar-dot"></span>
+            </span>
+            <span>ProjektRadar</span>
+        </a>
+        <div class="mode-switch-shell">
+            <span class="mode-switch-icon" aria-hidden="true">◎</span>
+            <label for="modeSwitch">Visning</label>
+            <select id="modeSwitch" class="mode-switch" @bind="_mode" @bind:after="OnModeChangedAsync" aria-label="Skift ProjektRadar-visning">
+                <option value="ProjectControl">Projektkontrol</option>
+                <option value="ArchitectureOverview">Arkitekturoverblik</option>
+            </select>
+            <span class="mode-switch-chevron" aria-hidden="true">⌄</span>
+        </div>
+        <nav class="main-nav" aria-label="Hovednavigation">
+            <a href="#documents">@(_mode == AppMode.ProjectControl ? "Dokumenter" : "Filer")</a>
+            <a href="#analysis">@(_mode == AppMode.ProjectControl ? "Analyse" : "Specifikationer")</a>
+            <a href="#risk">@(_mode == AppMode.ProjectControl ? "Risikovurdering" : "Konflikter")</a>
+            <a href="#actions">@(_mode == AppMode.ProjectControl ? "Handlingsplan" : "Udviklingsplan")</a>
+        </nav>
+        <a class="button button-secondary demo-download" href="@DemoZipPath" download>
+            @(_mode == AppMode.ProjectControl ? "Download demofiler" : "Download arkitektfiler")
+        </a>
+    </div>
+</header>
+
+<main id="top">
+    <section class="hero content-shell @(_mode == AppMode.ArchitectureOverview ? "hero-architecture" : string.Empty)">
+        @if (_mode == AppMode.ProjectControl)
+        {
+            <div class="hero-copy">
+                <div class="eyebrow">Ledelsesoverblik fra dokumenter</div>
+                <h1>Se projektets signaler, før de bliver problemer</h1>
+                <p class="hero-lead">ProjektRadar samler spredte projektdokumenter til ét forståeligt billede af risici, konflikter, manglende beslutninger og næste handling.</p>
+                <div class="hero-actions">
+                    <button class="button button-primary" @onclick="ScrollToUpload">Start analyse</button>
+                    <button class="button button-secondary" @onclick="ShowExampleAsync">Vis eksempelresultat</button>
+                </div>
+                <div class="trust-row" aria-label="Løsningens egenskaber">
+                    <span>Demoanalyse</span><span>Ingen data sendes eksternt</span><span>Ledelsesvenligt resultat</span>
+                </div>
+            </div>
+            <div class="hero-visual" aria-label="Illustration af Projektradars analyse">
+                <div class="hero-radar">
+                    <div class="hero-radar-grid"></div><div class="hero-radar-sweep"></div>
+                    <span class="signal signal-a"></span><span class="signal signal-b"></span><span class="signal signal-c"></span>
+                </div>
+                <div class="signal-card signal-card-top"><span class="mini-label">Samlet signal</span><strong>78 / 100</strong><span class="risk-high">Høj risiko</span></div>
+                <div class="signal-card signal-card-bottom"><span class="mini-label">Kræver beslutning</span><strong>4 punkter</strong><span>før ny baseline</span></div>
+            </div>
+        }
+        else
+        {
+            <div class="hero-copy">
+                <div class="eyebrow">Udvikleroverblik fra arkitektens filkaos</div>
+                <h1>Find den implementerbare specifikation i rodet</h1>
+                <p class="hero-lead">Arkitekturoverblik samler noter, API-udkast, ADR'er, schemas, SQL, mails og integrationslister til ét teknisk situationsbillede med klare konflikter og næste skridt.</p>
+                <div class="hero-actions">
+                    <button class="button button-primary" @onclick="ScrollToUpload">Analysér arkitektfiler</button>
+                    <button class="button button-secondary" @onclick="ShowExampleAsync">Vis udviklereksempel</button>
+                </div>
+                <div class="trust-row" aria-label="Løsningens egenskaber">
+                    <span>Demoanalyse</span><span>Specifikationer med kilder</span><span>Konflikter gjort handlingsbare</span>
+                </div>
+            </div>
+            <div class="architecture-hero-visual" aria-label="Illustration af arkitekturmateriale samlet til overblik">
+                <div class="code-window">
+                    <div class="code-window-top"><span></span><span></span><span></span><strong>architecture-notes_FINAL_v3.md</strong></div>
+                    <div class="code-line"><b>API</b><span>/api/v1/orders</span><em>?</em></div>
+                    <div class="code-line conflict"><b>NOTE</b><span>maybe /api/orders/v2</span><em>!</em></div>
+                    <div class="code-line"><b>AUTH</b><span>OAuth2 client credentials</span><em>✓</em></div>
+                    <div class="code-line conflict"><b>EVENT</b><span>correlationId missing</span><em>!</em></div>
+                </div>
+                <div class="architecture-float-card architecture-float-top"><span class="mini-label">Spec-dækning</span><strong>68%</strong><small>delvist afklaret</small></div>
+                <div class="architecture-float-card architecture-float-bottom"><span class="mini-label">Konflikter</span><strong>4</strong><small>kræver afklaring</small></div>
+            </div>
+        }
+    </section>
+
+    <section class="intro-strip">
+        <div class="content-shell intro-grid">
+            <div>
+                <span class="section-kicker">@(_mode == AppMode.ProjectControl ? "Fra dokumentstøj til retning" : "Fra filkaos til implementering")</span>
+                <h2>@(_mode == AppMode.ProjectControl ? "Et fælles situationsbillede for projektledelse og styregruppe" : "Ét sted at forstå hvad der faktisk skal bygges")</h2>
+            </div>
+            <p>@(_mode == AppMode.ProjectControl ? "Upload projektplaner, budgetter, risikolog, referater og statusmateriale. ProjektRadar fremhæver uoverensstemmelser og omsætter dem til beslutninger og konkrete handlinger." : "Upload arkitekturnoter, API-kontrakter, ADR'er, schemas, SQL, integrationsmatricer og mailuddrag. ProjektRadar samler krav, afhængigheder og modstridende beslutninger med sporbar evidens.")</p>
+        </div>
+    </section>
+
+    <section id="documents" class="content-shell section-space scroll-anchor">
+        <div class="section-heading">
+            <div>
+                <span class="section-kicker">@(_mode == AppMode.ProjectControl ? "Dokumenter" : "Arkitektfiler")</span>
+                <h2>@(_mode == AppMode.ProjectControl ? "Upload projektmaterialet" : "Upload de rodede specifikationsfiler")</h2>
+            </div>
+            <span class="mode-badge">Demoanalyse</span>
+        </div>
+
+        <div class="upload-layout">
+            <div id="dropZone" class="upload-zone">
+                <InputFile id="projectFileInput"
+                           class="visually-hidden-file"
+                           OnChange="HandleFilesAsync"
+                           multiple
+                           accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.csv,.txt,.md,.json,.xml,.yaml,.yml,.log,.rtf,.sql,.http,.puml,.proto,.cs,.csproj" />
+                <div class="upload-icon" aria-hidden="true">↑</div>
+                <h3>@(_mode == AppMode.ProjectControl ? "Træk filer hertil" : "Slip arkitektens filbunke her")</h3>
+                <p>@(_mode == AppMode.ProjectControl ? "eller vælg dem fra din computer. Begge metoder bruger præcis samme uploadflow." : "Noter, kontrakter, schemas, SQL og øvrige tekstfiler går gennem samme sikre uploadflow.")</p>
+                <label for="projectFileInput" class="button button-primary">Vælg filer</label>
+                <span class="file-types">PDF, Word, Excel, PowerPoint, CSV, TXT, Markdown, JSON, YAML, SQL, HTTP, PlantUML og kodefiler</span>
+            </div>
+
+            <aside class="demo-guide">
+                <span class="section-kicker">@(_mode == AppMode.ProjectControl ? "Prøv Projekt Aurora" : "Prøv arkitektens rod")</span>
+                <h3>@(_mode == AppMode.ProjectControl ? "Tre klik til et realistisk eksempel" : "En realistisk bunke uens specifikationer")</h3>
+                <ol>
+                    <li><strong>Download</strong> @(_mode == AppMode.ProjectControl ? "de samlede projektfiler" : "de ekstra arkitektfiler").</li>
+                    <li><strong>Udpak ZIP-filen</strong> og upload filerne.</li>
+                    <li><strong>Se analysen</strong> automatisk direkte på siden.</li>
+                </ol>
+                <a class="button button-secondary button-full" href="@DemoZipPath" download>@(_mode == AppMode.ProjectControl ? "Download Projekt Aurora" : "Download arkitektfiler")</a>
+            </aside>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(_uploadError))
+        {
+            <div class="notice notice-error" role="alert">@_uploadError</div>
+        }
+
+        @if (_uploadedDocuments.Count > 0)
+        {
+            <div class="uploaded-panel">
+                <div class="uploaded-panel-header">
+                    <div>
+                        <span class="mini-label">Modtaget</span>
+                        <strong>@_uploadedDocuments.Count dokumenter</strong>
+                    </div>
+                    @if (_isAnalyzing)
+                    {
+                        <span class="analysis-state"><span class="spinner"></span>Analyserer dokumenterne…</span>
+                    }
+                    else
+                    {
+                        <span class="analysis-state analysis-done">Analyse klar</span>
+                    }
+                </div>
+                <div class="file-chip-list">
+                    @foreach (var doc in _uploadedDocuments)
+                    {
+                        <span class="file-chip"><strong>@doc.Name</strong><small>@FormatBytes(doc.Size)</small></span>
+                    }
+                </div>
+            </div>
+        }
+    </section>
+
+    @if (_mode == AppMode.ProjectControl && _analysis is not null)
+    {
+        <section id="analysis" class="analysis-section scroll-anchor">
+            <div class="content-shell section-space">
+                <div class="analysis-header">
+                    <div>
+                        <span class="section-kicker">Analyse</span>
+                        <h2>Ledelsesoverblik</h2>
+                        <p>@_analysis.ExecutiveSummary</p>
+                    </div>
+                    <div class="analysis-actions">
+                        <span class="mode-badge mode-badge-strong">Demoanalyse</span>
+                        <button class="button button-primary" @onclick="DownloadPdfAsync">Download resultat som PDF</button>
+                    </div>
+                </div>
+
+                <div class="summary-grid">
+                    <article class="metric-card metric-risk">
+                        <span class="mini-label">Samlet risikoniveau</span>
+                        <div class="risk-score-row">
+                            <strong>@_analysis.RiskScore</strong><span>/100</span>
+                        </div>
+                        <div class="risk-level-pill">@_analysis.RiskLevel</div>
+                        <p>Kræver aktiv ledelsesopfølgning og beslutninger på tværs af plan, sikkerhed og økonomi.</p>
+                    </article>
+
+                    <article class="metric-card">
+                        <span class="mini-label">Dokumentkonflikter</span>
+                        <strong class="metric-number">@_analysis.Conflicts.Count</strong>
+                        <p>Uoverensstemmelser, der kan føre til forskellige beslutninger eller forventninger.</p>
+                    </article>
+
+                    <article class="metric-card">
+                        <span class="mini-label">Manglende beslutninger</span>
+                        <strong class="metric-number">@_analysis.MissingDecisions.Count</strong>
+                        <p>Punkter, som bør afklares, før projektet kan få en stabil baseline.</p>
+                    </article>
+
+                    <article class="metric-card">
+                        <span class="mini-label">Kritiske handlinger</span>
+                        <strong class="metric-number">@_analysis.Actions.Count(a => a.Priority == "Kritisk")</strong>
+                        <p>Handlinger med højeste prioritet i den nuværende plan.</p>
+                    </article>
+                </div>
+
+                <div class="radar-and-decisions">
+                    <article class="panel radar-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <span class="mini-label">Radarvisualisering</span>
+                                <h3>Hvor projektet er mest udsat</h3>
+                            </div>
+                            <span class="legend-dot">0–100</span>
+                        </div>
+                        <svg class="radar-chart" viewBox="0 0 560 440" role="img" aria-label="Radar over projektets risikoområder">
+                            @foreach (var factor in new[] { 0.25, 0.5, 0.75, 1.0 })
+                            {
+                                <polygon points="@RadarGridPoints(factor)" class="radar-grid-line"></polygon>
+                            }
+                            @for (var i = 0; i < _analysis.RadarMetrics.Count; i++)
+                            {
+                                var axis = RadarAxisEnd(i, _analysis.RadarMetrics.Count, 150);
+                                var label = RadarAxisEnd(i, _analysis.RadarMetrics.Count, 188);
+                                <line x1="280" y1="210" x2="@axis.X" y2="@axis.Y" class="radar-axis"></line>
+                                <foreignObject x="@(label.X - 60)" y="@(label.Y - 14)" width="120" height="28"><div class="radar-label">@_analysis.RadarMetrics[i].Name</div></foreignObject>
+                            }
+                            <polygon points="@RadarValuePoints()" class="radar-value"></polygon>
+                            @for (var i = 0; i < _analysis.RadarMetrics.Count; i++)
+                            {
+                                var point = RadarValuePoint(i);
+                                <circle cx="@point.X" cy="@point.Y" r="5" class="radar-value-dot"></circle>
+                            }
+                        </svg>
+                    </article>
+
+                    <article class="panel decisions-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <span class="mini-label">Kræver beslutning</span>
+                                <h3>Ledelsespunkter først</h3>
+                            </div>
+                        </div>
+                        <div class="decision-list">
+                            @foreach (var decision in _analysis.MissingDecisions)
+                            {
+                                <div class="decision-item">
+                                    <div class="decision-marker">!</div>
+                                    <div>
+                                        <strong>@decision.Decision</strong>
+                                        <p>@decision.WhyItMatters</p>
+                                        <small>@decision.NeededBy · @decision.Evidence</small>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="risk" class="content-shell section-space scroll-anchor">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">Risikovurdering</span>
+                    <h2>De væsentligste risici og konflikter</h2>
+                </div>
+            </div>
+
+            <div class="risk-list">
+                @foreach (var risk in _analysis.Risks.OrderByDescending(r => r.Score))
+                {
+                    <article class="risk-row">
+                        <div class="risk-score-box">@risk.Score</div>
+                        <div class="risk-main">
+                            <div class="risk-title-line">
+                                <h3>@risk.Title</h3>
+                                <span class="risk-tag @RiskClass(risk.Level)">@risk.Level</span>
+                            </div>
+                            <p>@risk.Description</p>
+                            <div class="risk-meta">
+                                <span><strong>Sandsynlighed</strong> @risk.Probability</span>
+                                <span><strong>Konsekvens</strong> @risk.Consequence</span>
+                                <span><strong>Kilde</strong> @risk.Evidence</span>
+                            </div>
+                        </div>
+                    </article>
+                }
+            </div>
+
+            <div class="subsection-heading">
+                <span class="section-kicker">Dokumentkonflikter</span>
+                <h3>Det samme projekt – forskellige sandheder</h3>
+            </div>
+            <div class="conflict-grid">
+                @foreach (var conflict in _analysis.Conflicts)
+                {
+                    <article class="panel conflict-card">
+                        <h4>@conflict.Title</h4>
+                        <p>@conflict.Summary</p>
+                        <div class="source-compare">
+                            <div><span>Kilde A</span><strong>@conflict.SourceA</strong></div>
+                            <div><span>Kilde B</span><strong>@conflict.SourceB</strong></div>
+                        </div>
+                        <div class="impact-line"><strong>Ledelseseffekt:</strong> @conflict.Impact</div>
+                    </article>
+                }
+            </div>
+
+            <div class="subsection-heading">
+                <span class="section-kicker">Kilder og evidens</span>
+                <h3>Se præcis hvad analysen bygger på</h3>
+            </div>
+            <div class="evidence-list">
+                @foreach (var evidence in _analysis.Evidence)
+                {
+                    <article class="evidence-row">
+                        <div class="document-symbol">DOC</div>
+                        <div>
+                            <strong>@evidence.Source</strong>
+                            <blockquote>“@evidence.Quote”</blockquote>
+                            <small>Understøtter: @evidence.Supports</small>
+                        </div>
+                    </article>
+                }
+            </div>
+        </section>
+
+        <section id="actions" class="action-section scroll-anchor">
+            <div class="content-shell section-space">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">Handlingsplan</span>
+                        <h2>Fra analyse til ansvar og fremdrift</h2>
+                        <p>Felterne nedenfor kan redigeres direkte. Statusændringer slår også igennem i kanban-visningen.</p>
+                    </div>
+                </div>
+
+                <div class="action-table-wrap">
+                    <table class="action-table">
+                        <thead>
+                            <tr>
+                                <th>Handling</th>
+                                <th>Ansvarlig rolle</th>
+                                <th>Deadline</th>
+                                <th>Prioritet</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var action in _analysis.Actions.OrderBy(a => a.Deadline))
+                            {
+                                <tr>
+                                    <td data-label="Handling">
+                                        <input class="edit-title" @bind="action.Title" />
+                                        <textarea class="edit-description" @bind="action.Description"></textarea>
+                                    </td>
+                                    <td data-label="Ansvarlig rolle">
+                                        <select @bind="action.ResponsibleRole">
+                                            @foreach (var role in ResponsibleRoles)
+                                            {
+                                                <option value="@role">@role</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td data-label="Deadline"><input type="date" @bind="action.Deadline" @bind:format="yyyy-MM-dd" /></td>
+                                    <td data-label="Prioritet">
+                                        <select @bind="action.Priority">
+                                            @foreach (var priority in Priorities)
+                                            {
+                                                <option value="@priority">@priority</option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td data-label="Status">
+                                        <select @bind="action.Status">
+                                            @foreach (var status in Statuses)
+                                            {
+                                                <option value="@status">@status</option>
+                                            }
+                                        </select>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="subsection-heading">
+                    <span class="section-kicker">Kanban</span>
+                    <h3>Fremdrift på handlingerne</h3>
+                </div>
+                <div class="kanban-board">
+                    @foreach (var status in Statuses)
+                    {
+                        <div class="kanban-column">
+                            <div class="kanban-column-header">
+                                <strong>@status</strong>
+                                <span>@_analysis.Actions.Count(a => a.Status == status)</span>
+                            </div>
+                            <div class="kanban-stack">
+                                @foreach (var action in _analysis.Actions.Where(a => a.Status == status).OrderBy(a => a.Deadline))
+                                {
+                                    <article class="kanban-card">
+                                        <div class="kanban-card-top">
+                                            <span class="risk-tag @RiskClass(action.Priority)">@action.Priority</span>
+                                            <small>@action.Deadline.ToString("dd.MM.yy")</small>
+                                        </div>
+                                        <strong>@action.Title</strong>
+                                        <p>@action.Description</p>
+                                        <div class="kanban-footer">
+                                            <span>@action.ResponsibleRole</span>
+                                            <select aria-label="Skift status for @action.Title" @bind="action.Status">
+                                                @foreach (var targetStatus in Statuses)
+                                                {
+                                                    <option value="@targetStatus">@targetStatus</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </article>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="subsection-heading">
+                    <span class="section-kicker">Tidslinje</span>
+                    <h3>Beslutninger, gates og milepæle i samme billede</h3>
+                </div>
+                <div class="timeline">
+                    @foreach (var item in _analysis.Timeline.OrderBy(t => t.Date))
+                    {
+                        <article class="timeline-item">
+                            <div class="timeline-date">
+                                <strong>@item.Date.ToString("dd")</strong>
+                                <span>@item.Date.ToString("MMM", new CultureInfo("da-DK"))</span>
+                            </div>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-title-line">
+                                    <strong>@item.Title</strong>
+                                    <span>@item.Type</span>
+                                    <span class="timeline-status">@item.Status</span>
+                                </div>
+                                <p>@item.Detail</p>
+                                <small>Kilde: @item.Evidence</small>
+                            </div>
+                        </article>
+                    }
+                </div>
+            </div>
+        </section>
+    }
+    else if (_mode == AppMode.ArchitectureOverview && _architectureAnalysis is not null)
+    {
+        <section id="analysis" class="analysis-section architecture-analysis-section scroll-anchor">
+            <div class="content-shell section-space">
+                <div class="analysis-header">
+                    <div>
+                        <span class="section-kicker">Specifikationer</span>
+                        <h2>Udviklerens situationsbillede</h2>
+                        <p>@_architectureAnalysis.ExecutiveSummary</p>
+                    </div>
+                    <div class="analysis-actions">
+                        <span class="mode-badge mode-badge-strong">Arkitekturoverblik · Demoanalyse</span>
+                        <button class="button button-primary" @onclick="DownloadArchitecturePdfAsync">Download resultat som PDF</button>
+                    </div>
+                </div>
+
+                <div class="summary-grid">
+                    <article class="metric-card metric-risk"><span class="mini-label">Specifikationsdækning</span><div class="risk-score-row"><strong>@_architectureAnalysis.SpecificationCoverage</strong><span>%</span></div><div class="risk-level-pill">@_architectureAnalysis.CoverageLevel</div><p>Hvor meget af den tekniske retning der er entydig nok til implementering.</p></article>
+                    <article class="metric-card"><span class="mini-label">Konflikter</span><strong class="metric-number">@_architectureAnalysis.Conflicts.Count</strong><p>Steder hvor to filer giver udvikleren forskellige svar.</p></article>
+                    <article class="metric-card"><span class="mini-label">Interfaces</span><strong class="metric-number">@_architectureAnalysis.Interfaces.Count</strong><p>Synkrone og asynkrone integrationer samlet på tværs af filerne.</p></article>
+                    <article class="metric-card"><span class="mini-label">Åbne spørgsmål</span><strong class="metric-number">@_architectureAnalysis.OpenQuestions.Count</strong><p>Afklaringer der påvirker kode, kontrakter eller integrationstest.</p></article>
+                </div>
+
+                <div class="architecture-overview-grid">
+                    <article class="panel architecture-map-panel">
+                        <div class="panel-heading"><div><span class="mini-label">Systembillede</span><h3>Den arkitektur filerne tilsammen beskriver</h3></div></div>
+                        <div class="system-flow">
+                            <div class="system-node"><small>Client</small><strong>Web / BFF</strong></div><span>→</span>
+                            <div class="system-node primary"><small>Core</small><strong>Order Service</strong></div><span>→</span>
+                            <div class="system-node"><small>Masterdata</small><strong>Customer Registry</strong></div>
+                        </div>
+                        <div class="system-flow system-flow-secondary">
+                            <div class="system-node"><small>Identity</small><strong>OAuth2 IdP</strong></div><span>↗</span>
+                            <div class="system-node"><small>Async</small><strong>Service Bus</strong></div><span>→</span>
+                            <div class="system-node"><small>Legacy</small><strong>Billing Adapter</strong></div>
+                        </div>
+                    </article>
+                    <article class="panel">
+                        <div class="panel-heading"><div><span class="mini-label">Dækning pr. område</span><h3>Hvor specifikationen er stærk eller tynd</h3></div></div>
+                        <div class="coverage-list">
+                            @foreach (var area in _architectureAnalysis.Areas)
+                            {
+                                <div class="coverage-row">
+                                    <div><strong>@area.Name</strong><span>@area.Status</span></div>
+                                    <div class="coverage-bar"><i style="@($"width:{area.Coverage}%")"></i></div>
+                                    <b>@area.Coverage%</b>
+                                    <small>@area.Detail</small>
+                                </div>
+                            }
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="risk" class="content-shell section-space scroll-anchor">
+            <div class="section-heading"><div><span class="section-kicker">Krav og interfaces</span><h2>Det udvikleren kan implementere ud fra</h2><p>Krav er samlet på tværs af filerne og mærket efter hvor sikre de er.</p></div></div>
+            <div class="requirements-table-wrap">
+                <table class="requirements-table">
+                    <thead><tr><th>ID</th><th>Område</th><th>Samlet krav</th><th>Status</th><th>Kilde</th></tr></thead>
+                    <tbody>
+                        @foreach (var requirement in _architectureAnalysis.Requirements)
+                        {
+                            <tr><td><code>@requirement.Id</code></td><td>@requirement.Area</td><td><strong>@requirement.Requirement</strong></td><td><span class="spec-status @SpecStatusClass(requirement.Status)">@requirement.Status</span></td><td><small>@requirement.Source</small></td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection-heading interface-section-heading"><span class="section-kicker">Interfaces</span><h3>Kontrakter og integrationspunkter</h3><p>Et samlet overblik over, hvilke systemer der taler sammen, hvordan de gør det, og hvor specifikationen kommer fra.</p></div>
+            <div class="interface-grid">
+                @foreach (var item in _architectureAnalysis.Interfaces)
+                {
+                    <article class="panel interface-card">
+                        <div class="interface-card-header">
+                            <div class="interface-heading">
+                                <span class="mini-label">@item.Protocol</span>
+                                <h4>@item.Name</h4>
+                            </div>
+                            <span class="spec-status @SpecStatusClass(item.Status)">@item.Status</span>
+                        </div>
+
+                        <div class="interface-route" aria-label="Integration fra @item.From til @item.To">
+                            <div class="interface-endpoint">
+                                <span>Fra</span>
+                                <strong>@item.From</strong>
+                            </div>
+                            <span class="interface-arrow" aria-hidden="true">→</span>
+                            <div class="interface-endpoint">
+                                <span>Til</span>
+                                <strong>@item.To</strong>
+                            </div>
+                        </div>
+
+                        <div class="interface-meta-grid">
+                            <div class="interface-meta-item">
+                                <span>Kontrakt</span>
+                                <strong>@item.Contract</strong>
+                            </div>
+                            <div class="interface-meta-item">
+                                <span>Autentifikation</span>
+                                <strong>@item.Authentication</strong>
+                            </div>
+                            <div class="interface-meta-item interface-evidence-item">
+                                <span>Evidens</span>
+                                <small>@item.Evidence</small>
+                            </div>
+                        </div>
+                    </article>
+                }
+            </div>
+
+            <div class="subsection-heading"><span class="section-kicker">Konflikter</span><h3>Her giver arkitektens filer forskellige svar</h3></div>
+            <div class="conflict-grid">
+                @foreach (var conflict in _architectureAnalysis.Conflicts)
+                {
+                    <article class="panel conflict-card architecture-conflict-card">
+                        <h4>@conflict.Title</h4>
+                        <div class="source-compare"><div><span>Fil A</span><strong>@conflict.SourceA</strong></div><div><span>Fil B</span><strong>@conflict.SourceB</strong></div></div>
+                        <p><strong>Konsekvens for udvikleren:</strong> @conflict.DeveloperImpact</p>
+                        <div class="architecture-recommendation"><strong>Arbejdshypotese</strong><span>@conflict.RecommendedInterpretation</span></div>
+                    </article>
+                }
+            </div>
+
+            <div class="subsection-heading"><span class="section-kicker">Afhængigheder</span><h3>Hvad din kode afhænger af</h3></div>
+            <div class="dependency-list">
+                @foreach (var dep in _architectureAnalysis.Dependencies)
+                {
+                    <article class="dependency-row"><div><strong>@dep.Component</strong><span>afhænger af</span><strong>@dep.DependsOn</strong></div><p>@dep.Why</p><span class="risk-tag @DependencyRiskClass(dep.Risk)">@dep.Risk risiko</span><small>@dep.Source</small></article>
+                }
+            </div>
+
+            <div class="subsection-heading"><span class="section-kicker">Evidens</span><h3>De konkrete spor tilbage til filerne</h3></div>
+            <div class="evidence-list">
+                @foreach (var evidence in _architectureAnalysis.Evidence)
+                {
+                    <article class="evidence-row"><div class="document-symbol">SRC</div><div><strong>@evidence.Source</strong><blockquote>“@evidence.Quote”</blockquote><small>Understøtter: @evidence.Supports</small></div></article>
+                }
+            </div>
+        </section>
+
+        <section id="actions" class="action-section architecture-action-section scroll-anchor">
+            <div class="content-shell section-space">
+                <div class="section-heading"><div><span class="section-kicker">Udviklingsplan</span><h2>Hvad kan jeg kode nu – og hvad blokerer?</h2><p>Prioriteret ud fra de samlede specifikationer. Status kan ændres direkte som arbejdsnote i demoen.</p></div></div>
+                <div class="developer-start-grid">
+                    @foreach (var task in _architectureAnalysis.Tasks.OrderBy(t => t.Priority == "Kritisk" ? 0 : 1))
+                    {
+                        <article class="developer-task-card">
+                            <div class="developer-task-top"><span class="risk-tag @RiskClass(task.Priority)">@task.Priority</span><span class="spec-status @TaskStatusClass(task.Status)">@task.Status</span></div>
+                            <span class="mini-label">@task.Area</span><h3>@task.Title</h3><p>@task.Detail</p><small>Kilde: @task.Evidence</small>
+                            <select aria-label="Skift status for @task.Title" @bind="task.Status">
+                                @foreach (var status in ArchitectureTaskStatuses)
+                                {
+                                    <option value="@status">@status</option>
+                                }
+                            </select>
+                        </article>
+                    }
+                </div>
+
+                <div class="subsection-heading"><span class="section-kicker">Åbne spørgsmål</span><h3>Spørg arkitekten om disse ting først</h3></div>
+                <div class="architecture-question-list">
+                    @foreach (var question in _architectureAnalysis.OpenQuestions)
+                    {
+                        <article class="architecture-question"><div class="question-priority">@question.Priority</div><div><strong>@question.Question</strong><p>@question.WhyItBlocks</p><small>Foreslået ejer: @question.SuggestedOwner · @question.Evidence</small></div></article>
+                    }
+                </div>
+
+                <div class="subsection-heading"><span class="section-kicker">Beslutningsregister</span><h3>Hvad er faktisk besluttet?</h3></div>
+                <div class="decision-register">
+                    @foreach (var decision in _architectureAnalysis.Decisions)
+                    {
+                        <article><span class="mini-label">@decision.Topic</span><strong>@decision.Decision</strong><span class="spec-status @SpecStatusClass(decision.Status)">@decision.Status</span><small>@decision.Source</small></article>
+                    }
+                </div>
+            </div>
+        </section>
+    }
+</main>
+
+<footer class="footer">
+    <div class="content-shell footer-inner">
+        <div class="brand footer-brand">
+            <span class="radar-mark" aria-hidden="true"><span class="radar-ring radar-ring-1"></span><span class="radar-ring radar-ring-2"></span><span class="radar-sweep"></span></span>
+            <span>ProjektRadar</span>
+        </div>
+        <p>@(_mode == AppMode.ProjectControl ? "Demonstration af dokumentbaseret projektanalyse til offentlige IT-projekter." : "Demonstration af specifikationsanalyse for udviklere med rodede arkitektkilder.")</p>
+    </div>
+</footer>
+
+@code {
+    private const long MaxFileSize = 30L * 1024L * 1024L;
+    private static readonly string[] AllowedExtensions = [".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".csv", ".txt", ".md", ".json", ".xml", ".yaml", ".yml", ".log", ".rtf", ".sql", ".http", ".puml", ".proto", ".cs", ".csproj"];
+    private static readonly string[] TextExtensions = [".csv", ".txt", ".md", ".json", ".xml", ".yaml", ".yml", ".log", ".sql", ".http", ".puml", ".proto", ".cs", ".csproj"];
+    private static readonly string[] ResponsibleRoles = ["Styregruppe", "Projektejer", "Programledelse", "Projektleder", "Product Owner", "IT-ledelse", "IT-sikkerhed", "Data Office", "Leverandøransvarlig"];
+    private static readonly string[] Priorities = ["Kritisk", "Høj", "Mellem", "Lav"];
+    private static readonly string[] Statuses = ["Ikke startet", "I gang", "Afventer", "Færdig"];
+    private static readonly string[] ArchitectureTaskStatuses = ["Klar", "Blokeret", "Afventer", "I gang", "Færdig"];
+
+    private readonly List<UploadedDocument> _uploadedDocuments = [];
+    private AppMode _mode = AppMode.ProjectControl;
+    private ProjectAnalysis? _analysis;
+    private ArchitectureAnalysis? _architectureAnalysis;
+    private bool _isAnalyzing;
+    private string? _uploadError;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("projectRadar.initializeDragDrop", "dropZone", "projectFileInput");
+        }
+    }
+
+    private async Task HandleFilesAsync(InputFileChangeEventArgs args)
+    {
+        _uploadError = null;
+        _uploadedDocuments.Clear();
+        _analysis = null;
+        _architectureAnalysis = null;
+        _isAnalyzing = true;
+
+        try
+        {
+            foreach (var file in args.GetMultipleFiles(50))
+            {
+                var extension = Path.GetExtension(file.Name).ToLowerInvariant();
+                if (!AllowedExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
+                {
+                    throw new InvalidOperationException($"Filtypen {extension} understøttes ikke: {file.Name}");
+                }
+
+                await using var input = file.OpenReadStream(MaxFileSize);
+                using var memory = new MemoryStream();
+                await input.CopyToAsync(memory);
+                var bytes = memory.ToArray();
+                var preview = TextExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase)
+                    ? CreateTextPreview(bytes)
+                    : null;
+
+                _uploadedDocuments.Add(new UploadedDocument
+                {
+                    Name = file.Name,
+                    Extension = extension,
+                    ContentType = file.ContentType,
+                    Size = file.Size,
+                    Sha256 = Convert.ToHexString(SHA256.HashData(bytes)),
+                    TextPreview = preview
+                });
+            }
+
+            if (_mode == AppMode.ProjectControl)
+            {
+                _analysis = await DemoAnalysis.AnalyzeAsync(_uploadedDocuments);
+            }
+            else
+            {
+                _architectureAnalysis = await ArchitectureAnalysis.AnalyzeAsync(_uploadedDocuments);
+            }
+            await InvokeAsync(StateHasChanged);
+            await JS.InvokeVoidAsync("projectRadar.scrollTo", "analysis");
+        }
+        catch (Exception ex)
+        {
+            _uploadError = ex is IOException
+                ? "En eller flere filer er større end 30 MB. Upload mindre filer til denne demo."
+                : ex.Message;
+        }
+        finally
+        {
+            _isAnalyzing = false;
+        }
+    }
+
+    private async Task ShowExampleAsync()
+    {
+        _uploadError = null;
+        _isAnalyzing = true;
+        if (_mode == AppMode.ProjectControl)
+        {
+            _analysis = await DemoAnalysis.AnalyzeAsync(Array.Empty<UploadedDocument>());
+            _architectureAnalysis = null;
+        }
+        else
+        {
+            _architectureAnalysis = await ArchitectureAnalysis.AnalyzeAsync(Array.Empty<UploadedDocument>());
+            _analysis = null;
+        }
+        _isAnalyzing = false;
+        await InvokeAsync(StateHasChanged);
+        await JS.InvokeVoidAsync("projectRadar.scrollTo", "analysis");
+    }
+
+    private async Task OnModeChangedAsync()
+    {
+        _uploadedDocuments.Clear();
+        _analysis = null;
+        _architectureAnalysis = null;
+        _uploadError = null;
+        await InvokeAsync(StateHasChanged);
+        await JS.InvokeVoidAsync("projectRadar.scrollTo", "top");
+    }
+
+    private string DemoZipPath => _mode == AppMode.ProjectControl
+        ? "demo/Project-Aurora-Demofiler.zip"
+        : "demo/Architecture-Messy-Demofiler.zip";
+
+    private Task ScrollToUpload() => JS.InvokeVoidAsync("projectRadar.scrollTo", "documents").AsTask();
+
+    private async Task DownloadPdfAsync()
+    {
+        if (_analysis is null) return;
+        var pdf = PdfExport.Create(_analysis);
+        var fileName = $"ProjektRadar_Aurora_{DateTime.Now:yyyyMMdd_HHmm}.pdf";
+        await JS.InvokeVoidAsync("projectRadar.downloadBase64", fileName, Convert.ToBase64String(pdf), "application/pdf");
+    }
+
+    private async Task DownloadArchitecturePdfAsync()
+    {
+        if (_architectureAnalysis is null) return;
+        var pdf = PdfExport.Create(_architectureAnalysis);
+        var fileName = $"ProjektRadar_Arkitekturoverblik_{DateTime.Now:yyyyMMdd_HHmm}.pdf";
+        await JS.InvokeVoidAsync("projectRadar.downloadBase64", fileName, Convert.ToBase64String(pdf), "application/pdf");
+    }
+
+    private static string SpecStatusClass(string status)
+    {
+        if (status.Contains("Klar", StringComparison.OrdinalIgnoreCase) || status.Contains("Besluttet", StringComparison.OrdinalIgnoreCase) || status.Contains("God", StringComparison.OrdinalIgnoreCase)) return "spec-good";
+        if (status.Contains("konflikt", StringComparison.OrdinalIgnoreCase) || status.Contains("Uklar", StringComparison.OrdinalIgnoreCase)) return "spec-conflict";
+        if (status.Contains("åben", StringComparison.OrdinalIgnoreCase) || status.Contains("afklaring", StringComparison.OrdinalIgnoreCase) || status.Contains("Delvis", StringComparison.OrdinalIgnoreCase)) return "spec-warning";
+        return "spec-neutral";
+    }
+
+    private static string TaskStatusClass(string status) => status switch
+    {
+        "Klar" => "spec-good",
+        "Blokeret" => "spec-conflict",
+        "Afventer" => "spec-warning",
+        "Færdig" => "spec-good",
+        _ => "spec-neutral"
+    };
+
+    private static string DependencyRiskClass(string risk) => risk switch
+    {
+        "Høj" => "risk-high-tag",
+        "Medium" => "risk-medium",
+        "Mellem" => "risk-medium",
+        _ => "risk-low"
+    };
+
+    private static string CreateTextPreview(byte[] bytes)
+    {
+        var length = Math.Min(bytes.Length, 6_000);
+        return Encoding.UTF8.GetString(bytes, 0, length);
+    }
+
+    private static string FormatBytes(long bytes)
+    {
+        if (bytes < 1024) return $"{bytes} B";
+        if (bytes < 1024 * 1024) return $"{bytes / 1024d:0.0} KB";
+        return $"{bytes / 1024d / 1024d:0.0} MB";
+    }
+
+    private static string RiskClass(string level) => level switch
+    {
+        "Kritisk" => "risk-critical",
+        "Høj" => "risk-high-tag",
+        "Mellem" => "risk-medium",
+        _ => "risk-low"
+    };
+
+    private string RadarGridPoints(double factor)
+    {
+        if (_analysis is null) return string.Empty;
+        return string.Join(" ", Enumerable.Range(0, _analysis.RadarMetrics.Count)
+            .Select(i => RadarAxisEnd(i, _analysis.RadarMetrics.Count, 150 * factor))
+            .Select(p => $"{p.X.ToString("0.0", CultureInfo.InvariantCulture)},{p.Y.ToString("0.0", CultureInfo.InvariantCulture)}"));
+    }
+
+    private string RadarValuePoints()
+    {
+        if (_analysis is null) return string.Empty;
+        return string.Join(" ", Enumerable.Range(0, _analysis.RadarMetrics.Count)
+            .Select(RadarValuePoint)
+            .Select(p => $"{p.X.ToString("0.0", CultureInfo.InvariantCulture)},{p.Y.ToString("0.0", CultureInfo.InvariantCulture)}"));
+    }
+
+    private (double X, double Y) RadarValuePoint(int index)
+    {
+        if (_analysis is null) return (280, 210);
+        var score = _analysis.RadarMetrics[index].Score / 100d;
+        return RadarAxisEnd(index, _analysis.RadarMetrics.Count, 150 * score);
+    }
+
+    private static (double X, double Y) RadarAxisEnd(int index, int count, double radius)
+    {
+        const double centerX = 280;
+        const double centerY = 210;
+        var angle = (Math.PI * 2 * index / count) - (Math.PI / 2);
+        return (centerX + Math.Cos(angle) * radius, centerY + Math.Sin(angle) * radius);
+    }
+}

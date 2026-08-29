@@ -1,0 +1,237 @@
+{
+  "projectName": "Projekt Aurora",
+  "summary": "Aurora er under pres, men ikke kritisk truet. Dokumenterne viser en håndterbar tidsplansafvigelse på 14 dage, et forecast 0,65 mio. kr. over rammen og en penetrationstest, der er booket efter den oprindelige baseline, men før den foreslåede lanceringsdato. Datakvaliteten er forbedret, og en dataejer er foreslået; de vigtigste opgaver er nu at samle planerne og formalisere de åbne beslutninger.",
+  "overallLevel": "Mellem",
+  "overallScore": 58,
+  "dimensions": [
+    {
+      "key": "schedule",
+      "name": "Tidsplan",
+      "score": 66,
+      "level": "Mellem",
+      "summary": "Leverandørens prognose ligger 14 dage efter projektets baseline.",
+      "evidence": [
+        "Projektplanen fastholder go-live 30. november 2026.",
+        "Leverandørstatus og referat angiver 14. december 2026 som realistisk dato."
+      ],
+      "sources": ["02_Projektplan_Aurora.docx", "04_Styregruppereferat_Aurora.pdf", "06_Leverandoerstatus_Aurora.pptx"]
+    },
+    {
+      "key": "budget",
+      "name": "Økonomi",
+      "score": 54,
+      "level": "Mellem",
+      "summary": "Forecast er 0,65 mio. kr. eller 5,4 % over den godkendte ramme; afvigelsen vurderes håndterbar, men kræver beslutning.",
+      "evidence": [
+        "Projektgrundlaget fastsætter budgetrammen til 12,0 mio. kr.",
+        "Budgetarket og styregruppereferatet viser forecast på 12,65 mio. kr."
+      ],
+      "sources": ["01_Projektgrundlag_Aurora.pdf", "03_Budget_Aurora.xlsx", "04_Styregruppereferat_Aurora.pdf"]
+    },
+    {
+      "key": "security",
+      "name": "Sikkerhed",
+      "score": 58,
+      "level": "Mellem",
+      "summary": "Penetrationstesten er booket 1.–3. december; den ligger efter baseline, men før den foreslåede december-release.",
+      "evidence": [
+        "Projektgrundlaget kræver penetrationstest og sikkerhedsgodkendelse før produktion.",
+        "Testen er booket med mulighed for en kort retest."
+      ],
+      "sources": ["01_Projektgrundlag_Aurora.pdf", "04_Styregruppereferat_Aurora.pdf", "07_Statusmail_Aurora.txt"]
+    },
+    {
+      "key": "data",
+      "name": "Data og kvalitet",
+      "score": 42,
+      "level": "Mellem",
+      "summary": "Prøvemigreringen har 1,6 % afviste poster, og en dataejer er foreslået; acceptmandatet mangler formel bekræftelse.",
+      "evidence": [
+        "Projektplanen angiver fortsat dataejerskab som uafklaret.",
+        "Den nyere statusmail foreslår Julie Mark som dataejer og beskriver en plan for restfejl."
+      ],
+      "sources": ["02_Projektplan_Aurora.docx", "04_Styregruppereferat_Aurora.pdf", "07_Statusmail_Aurora.txt"]
+    },
+    {
+      "key": "governance",
+      "name": "Governance",
+      "score": 46,
+      "level": "Mellem",
+      "summary": "Den gule ledelsesstatus er rimelig, men styringsdokumenterne er ikke fuldt synkroniseret.",
+      "evidence": [
+        "Statusmail og projektplan rapporterer samlet gul status.",
+        "Go-live-dato og dataejerskab fremgår forskelligt på tværs af dokumenterne."
+      ],
+      "sources": ["02_Projektplan_Aurora.docx", "04_Styregruppereferat_Aurora.pdf", "05_Risikolog_Aurora.csv", "07_Statusmail_Aurora.txt"]
+    },
+    {
+      "key": "scope",
+      "name": "Omfang",
+      "score": 22,
+      "level": "Lav",
+      "summary": "Der er ingen dokumenterede scopeændringer; afvigelserne handler om plan og gennemførelse.",
+      "evidence": ["Projektplan og statusmail oplyser, at scope er uændret."],
+      "sources": ["02_Projektplan_Aurora.docx", "07_Statusmail_Aurora.txt"]
+    }
+  ],
+  "conflicts": [
+    {
+      "topic": "Go-live",
+      "statementA": "Godkendt baseline: 30. november 2026",
+      "sourceA": "02_Projektplan_Aurora.docx",
+      "statementB": "Realistisk leverandørprognose: 14. december 2026",
+      "sourceB": "06_Leverandoerstatus_Aurora.pptx",
+      "consequence": "Test, kommunikation og bemanding skal samles i én opdateret plan."
+    },
+    {
+      "topic": "Økonomi",
+      "statementA": "Godkendt ramme: 12,00 mio. kr.",
+      "sourceA": "01_Projektgrundlag_Aurora.pdf",
+      "statementB": "Seneste forecast: 12,65 mio. kr.",
+      "sourceB": "03_Budget_Aurora.xlsx",
+      "consequence": "Styregruppen skal godkende håndteringen af en moderat forecastafvigelse."
+    },
+    {
+      "topic": "Dataejerskab",
+      "statementA": "Dataejer: Ikke udpeget",
+      "sourceA": "02_Projektplan_Aurora.docx",
+      "statementB": "Julie Mark er foreslået som dataejer",
+      "sourceB": "07_Statusmail_Aurora.txt",
+      "consequence": "Arbejdsplanen skal opdateres, og acceptmandatet skal bekræftes."
+    }
+  ],
+  "risks": [
+    {
+      "id": "R-026",
+      "title": "To styringsdatoer",
+      "level": "Høj",
+      "probability": 3,
+      "impact": 4,
+      "score": 12,
+      "description": "Projekt og leverandør planlægger efter forskellige go-live-datoer.",
+      "evidence": "30. november 2026 mod 14. december 2026.",
+      "sources": ["02_Projektplan_Aurora.docx", "06_Leverandoerstatus_Aurora.pptx"]
+    },
+    {
+      "id": "R-014",
+      "title": "Integration er ét sprint efter planen",
+      "level": "Mellem",
+      "probability": 3,
+      "impact": 3,
+      "score": 9,
+      "description": "Digital Post-integrationen kræver fortsat stabilisering og regression.",
+      "evidence": "Integration er 71 % færdig mod planlagt 78 %.",
+      "sources": ["05_Risikolog_Aurora.csv", "06_Leverandoerstatus_Aurora.pptx"]
+    },
+    {
+      "id": "R-024",
+      "title": "Forecast over den godkendte ramme",
+      "level": "Mellem",
+      "probability": 3,
+      "impact": 3,
+      "score": 9,
+      "description": "Forecast overstiger den godkendte ramme med 5,4 %.",
+      "evidence": "12,65 mio. kr. mod 12,00 mio. kr.",
+      "sources": ["03_Budget_Aurora.xlsx", "04_Styregruppereferat_Aurora.pdf"]
+    },
+    {
+      "id": "R-021",
+      "title": "Sikkerhedstest efter baseline-dato",
+      "level": "Mellem",
+      "probability": 2,
+      "impact": 4,
+      "score": 8,
+      "description": "Testen er booket efter den oprindelige go-live, men før leverandørens foreslåede dato.",
+      "evidence": "Booket 1.–3. december med mulighed for retest.",
+      "sources": ["01_Projektgrundlag_Aurora.pdf", "04_Styregruppereferat_Aurora.pdf"]
+    },
+    {
+      "id": "R-018",
+      "title": "Dataejerens mandat er ikke formaliseret",
+      "level": "Mellem",
+      "probability": 2,
+      "impact": 3,
+      "score": 6,
+      "description": "En ejer er foreslået, men kan endnu ikke formelt acceptere restfejl og datakvalitet.",
+      "evidence": "1,6 % af posterne blev afvist i prøvemigreringen.",
+      "sources": ["04_Styregruppereferat_Aurora.pdf", "07_Statusmail_Aurora.txt"]
+    }
+  ],
+  "actions": [
+    {
+      "id": "A-071",
+      "title": "Beslut én go-live-dato",
+      "description": "Godkend 14. december eller fasthold baseline med dokumenterede konsekvenser, og opdater alle planer.",
+      "owner": "Projektleder og styregruppe",
+      "dueDate": "2026-09-04",
+      "priority": "Høj",
+      "status": "Skal besluttes",
+      "rationale": "Alle afhængigheder skal styres efter samme dato.",
+      "dependencies": []
+    },
+    {
+      "id": "A-075",
+      "title": "Luk integrationsgabet",
+      "description": "Fortsæt fælles fejltriage, stabiliser Digital Post-komponenten og gennemfør regression.",
+      "owner": "Teknisk lead og leverandør",
+      "dueDate": "2026-09-08",
+      "priority": "Høj",
+      "status": "Klar",
+      "rationale": "Integration er den største resterende fremdriftsafvigelse.",
+      "dependencies": []
+    },
+    {
+      "id": "A-073",
+      "title": "Bekræft test- og retestplan",
+      "description": "Fasthold vinduet 1.–3. december og reserver kort retest før go/no-go.",
+      "owner": "CISO og indkøb",
+      "dueDate": "2026-09-04",
+      "priority": "Mellem",
+      "status": "Klar",
+      "rationale": "Sikkerhedskravet er håndterbart, hvis den nye plan godkendes.",
+      "dependencies": []
+    },
+    {
+      "id": "A-074",
+      "title": "Bekræft dataejerens acceptmandat",
+      "description": "Formaliser Julie Marks mandat og godkend regler for dubletter, samtykke og acceptable restfejl.",
+      "owner": "Sponsor",
+      "dueDate": "2026-09-04",
+      "priority": "Mellem",
+      "status": "Skal besluttes",
+      "rationale": "Det lukker den resterende governance-usikkerhed i migreringen.",
+      "dependencies": []
+    },
+    {
+      "id": "A-072",
+      "title": "Godkend håndtering af forecastafvigelsen",
+      "description": "Beslut finansiering, reserveanvendelse eller en mindre omprioritering svarende til 0,65 mio. kr.",
+      "owner": "Sponsor og økonomi",
+      "dueDate": "2026-09-15",
+      "priority": "Mellem",
+      "status": "Planlagt",
+      "rationale": "Forecast overstiger rammen med 5,4 %.",
+      "dependencies": ["A-071"]
+    },
+    {
+      "id": "A-076",
+      "title": "Synkronisér styringsdokumenterne",
+      "description": "Opdater projektplan, risikolog og status efter styregruppebeslutningen.",
+      "owner": "Projektleder",
+      "dueDate": "2026-09-08",
+      "priority": "Lav",
+      "status": "Planlagt",
+      "rationale": "Enslydende planer reducerer risikoen for misforståelser.",
+      "dependencies": []
+    }
+  ],
+  "sources": [
+    {"fileName": "01_Projektgrundlag_Aurora.pdf", "category": "Projektgrundlag", "keyObservation": "Baseline: 12,0 mio. kr., go-live 30. november og sikkerhedsgodkendelse før produktion."},
+    {"fileName": "02_Projektplan_Aurora.docx", "category": "Plan", "keyObservation": "Fastholder novemberdato og gul status; dataejer fremgår endnu ikke som udpeget."},
+    {"fileName": "03_Budget_Aurora.xlsx", "category": "Økonomi", "keyObservation": "Forecast 12,65 mio. kr. og afvigelse 0,65 mio. kr."},
+    {"fileName": "04_Styregruppereferat_Aurora.pdf", "category": "Governance", "keyObservation": "Gul status og åbne, men håndterbare beslutninger om dato, økonomi, sikkerhed og data."},
+    {"fileName": "05_Risikolog_Aurora.csv", "category": "Risici", "keyObservation": "Én høj og flere mellemstore risici er åbne."},
+    {"fileName": "06_Leverandoerstatus_Aurora.pptx", "category": "Leverandør", "keyObservation": "Realistisk go-live 14. december 2026 og integration 7 procentpoint efter plan."},
+    {"fileName": "07_Statusmail_Aurora.txt", "category": "Status", "keyObservation": "Rapporterer gul status, booket sikkerhedstest og foreslået dataejer."}
+  ]
+}

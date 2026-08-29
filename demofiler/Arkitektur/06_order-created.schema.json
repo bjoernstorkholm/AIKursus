@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:aurora:event:order-created:1",
+  "title": "OrderCreated",
+  "type": "object",
+  "required": ["orderId", "customerId", "total", "occurredAt"],
+  "properties": {
+    "orderId": { "type": "string" },
+    "customerId": { "type": "string" },
+    "total": { "type": "number" },
+    "currency": { "type": "string", "default": "DKK" },
+    "occurredAt": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

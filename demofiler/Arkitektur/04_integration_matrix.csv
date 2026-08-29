@@ -1,0 +1,5 @@
+From,To,Protocol,Purpose,Timeout,Retry,Auth,Owner,Note
+Order Service,Customer Registry,HTTPS REST,Validate customer,15 seconds,3 retries,mTLS + token,Platform team,"Old workshop value - verify SLA"
+Order Service,Azure Service Bus,AMQP,Publish OrderCreated,5 seconds,5 retries,Managed identity,Integration team,"Topic name aurora-orders"
+Billing Adapter,Legacy Billing,SOAP XML,Create invoice,30 seconds,1 retry,Service account,Finance IT,"WSDL from 2019"
+Web BFF,Order Service,HTTPS REST,Order UI calls,10 seconds,No retry,User token,Order team,"Route follows OpenAPI draft"

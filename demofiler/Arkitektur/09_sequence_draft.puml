@@ -1,0 +1,17 @@
+@startuml
+actor User
+participant "Web/BFF" as BFF
+participant "Order Service" as Order
+participant "Customer Registry" as Customer
+queue "Service Bus" as Bus
+participant "Billing Adapter" as Billing
+
+User -> BFF: Create order
+BFF -> Order: POST /api/v1/orders\nX-Client-Request-Id
+Order -> Customer: GET /customers/{id}
+Customer --> Order: customer
+Order -> Order: save order + outbox
+Order --> BFF: 201 Created
+Order -> Bus: OrderCreated
+Bus -> Billing: OrderCreated
+@enduml

@@ -1,0 +1,15 @@
+From: Customer Registry Team
+To: Aurora architecture
+Subject: Re: expected call pattern and SLA
+Date: 2026-08-25
+
+Hi,
+
+For the pilot, please design so each synchronous lookup consumes no more than roughly five seconds of the caller's end-to-end time budget. Our normal p95 is below two seconds.
+
+Please do not stack several long retries in the user request path. If you need retries, use short bounded retries and agree the total timeout budget with us.
+
+mTLS is still required at ingress. Application authentication is the platform OAuth token.
+
+Regards,
+Registry team

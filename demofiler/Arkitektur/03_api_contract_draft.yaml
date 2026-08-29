@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: Aurora Order API
+  version: 0.7-draft
+servers:
+  - url: /api/v1
+paths:
+  /orders:
+    get:
+      operationId: getOrders
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: createOrder
+      parameters:
+        - in: header
+          name: X-Client-Request-Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Created
+        '409':
+          description: Duplicate request or order conflict
+  /orders/{orderId}:
+    get:
+      operationId: getOrder
+      parameters:
+        - in: path
+          name: orderId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found
+# TODO: define standard problem details and auth scheme before final review

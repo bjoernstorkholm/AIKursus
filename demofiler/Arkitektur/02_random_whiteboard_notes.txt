@@ -1,0 +1,14 @@
+WHITEBOARD NOTES - copied after workshop, 18/08
+
+orders:
+- maybe drop v1 before pilot??? use /api/orders/v2 so we don't get stuck with v1 naming
+- GET order simple
+- POST order: request-id? idempotency table maybe
+- customer call before save, or after? ask Mikkel
+- EVENT after commit. probably OrderCreatedV2 (?)
+
+security:
+- use normal platform auth
+- not sure if client credentials is ready in test
+
+TODO: reconcile with OpenAPI file, didn't have it open in workshop.

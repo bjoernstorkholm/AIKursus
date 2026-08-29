@@ -1,0 +1,26 @@
+FIKTIVT DEMOMATERIALE
+
+Fra: Mads Friis, projektleder
+Til: Projekt Aurora – styregruppe
+Dato: 24. august 2026
+Emne: Aurora – kort ugentlig status
+
+Kære styregruppe
+
+Vi rapporterer samlet status GUL. Teamet arbejder fortsat mod en produktionssætning inden årets udgang, og der er ikke foreslået ændringer i scope.
+
+Portalsporet er næsten færdigt, og den nye mobile visning fik gode tilbagemeldinger i seneste brugertest. Integrationssporet er cirka ét sprint efter planen, og en stabiliseringsplan er sat i gang. Leverandørens statusmateriale viser 14. december 2026 som forventet go-live. Datoen er endnu ikke godkendt og er derfor ikke indarbejdet i projektplanens baseline på 30. november.
+
+Økonomi har opdateret forecast til 12,65 mio. kr. mod den godkendte ramme på 12,00 mio. kr. Afvigelsen vurderes håndterbar, men sponsor og økonomi fremlægger et konkret forslag til styregruppen.
+
+Penetrationstesten er booket til 1.–3. december 2026 med mulighed for en kort retest. CISO fastholder, at testen og sikkerhedsgodkendelsen skal være afsluttet før produktionssætning.
+
+Prøvemigreringen afviste 1,6 % af posterne. Julie Mark er foreslået som dataejer, men hendes mandat til at godkende regler for dubletter, manglende samtykker og mindre restfejl skal bekræftes skriftligt.
+
+Jeg vender tilbage med en samlet replanlægning og anbefaling senest 4. september.
+
+Venlig hilsen
+Mads Friis
+Projektleder, Projekt Aurora
+
+Alle navne, beløb og hændelser i denne mail er fiktive.

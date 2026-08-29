@@ -1,0 +1,12 @@
+### Which base path is authoritative?
+GET https://localhost:7001/api/v1/orders/00000000-0000-0000-0000-000000000001
+Authorization: Bearer {{token}}
+
+### Whiteboard alternative - should this even exist?
+GET https://localhost:7001/api/orders/v2/00000000-0000-0000-0000-000000000001
+Authorization: Bearer {{token}}
+
+### TODO
+# Decide route before generating client SDK and contract tests.
+# Add OAuth2 scheme to OpenAPI.
+# Decide ProblemDetails payload.
