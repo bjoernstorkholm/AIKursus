@@ -1,6 +1,6 @@
 # ProjektRadar
 
-ProjektRadar.dk er en Blazor Interactive Server-demo på .NET 10 med to arbejdsformer:
+ProjektRadar er en Blazor Interactive Server-demo på .NET 10 med to arbejdsformer:
 
 1. **Projektkontrol** – samler projektdokumenter til et ledelsesoverblik over risici, konflikter, manglende beslutninger og prioriterede handlinger.
 2. **Arkitekturoverblik** – samler rodede filer fra en softwarearkitekt til et udvikleroverblik over krav, interfaces, afhængigheder, modstridende specifikationer, beslutninger og åbne spørgsmål.
