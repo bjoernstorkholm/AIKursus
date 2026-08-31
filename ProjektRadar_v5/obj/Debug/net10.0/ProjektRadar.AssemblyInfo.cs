@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProjektRadar")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4cf3b8a12336acdc9c90749685a3dba4a4ed305a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b55484d536029aacb237fca20f6abe011c300199")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProjektRadar")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProjektRadar")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -79,9 +79,43 @@ window.projectRadar = (() => {
         document.getElementById(elementId)?.scrollIntoView({ behavior: "smooth", block: "start" });
     };
 
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const initToTop = (threshold = 240) => {
+        const setup = () => {
+            const btn = document.getElementById('toTop');
+            if (!btn) return;
+
+            const onScroll = () => {
+                if (window.scrollY > threshold) btn.classList.add('show');
+                else btn.classList.remove('show');
+            };
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            // ensure button triggers smooth scroll even if onclick attribute is absent
+            btn.addEventListener('click', scrollToTop);
+            onScroll();
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setup);
+        } else {
+            setup();
+        }
+    };
+
     return {
         initializeDragDrop,
         downloadBase64,
-        scrollTo
+        scrollTo,
+        scrollToTop,
+        initToTop
     };
+})();
+
+// Auto-initialize the to-top watcher if possible
+(function(){
+    try { if (window.projectRadar && typeof window.projectRadar.initToTop === 'function') window.projectRadar.initToTop(); } catch(e){}
 })();

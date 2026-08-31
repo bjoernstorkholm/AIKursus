@@ -156,8 +156,8 @@ C:\Users\bjoer\Desktop\ai_kursus\ProjektRadar\githubtest\AIKursus\ProjektRadar\A
 C:\Users\bjoer\Desktop\ai_kursus\ProjektRadar\githubtest\AIKursus\ProjektRadar\AIKursus\ProjektRadar_v5\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 C:\Users\bjoer\Desktop\ai_kursus\ProjektRadar\githubtest\AIKursus\ProjektRadar\AIKursus\ProjektRadar_v5\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
 C:\Users\bjoer\Desktop\ai_kursus\ProjektRadar\githubtest\AIKursus\ProjektRadar\AIKursus\ProjektRadar_v5\obj\Debug\net10.0\scopedcss\bundle\ProjektRadar.styles.css
-C:\Users\bjoer\Desktop\ai_kursus\ProjektRadar\githubtest\AIKursus\ProjektRadar\AIKursus\ProjektRadar_v5\obj\Debug\net10.0\compressed\mkf4kxr992-{0}-e6y8x0sauv-e6y8x0sauv.gz
-C:\Users\bjoer\Desktop\ai_kursus\ProjektRadar\githubtest\AIKursus\ProjektRadar\AIKursus\ProjektRadar_v5\obj\Debug\net10.0\compressed\jmx36g2dzd-{0}-rs9kla619z-rs9kla619z.gz
+C:\Users\bjoer\Desktop\ai_kursus\ProjektRadar\githubtest\AIKursus\ProjektRadar\AIKursus\ProjektRadar_v5\obj\Debug\net10.0\compressed\mkf4kxr992-{0}-3g2txizjcm-3g2txizjcm.gz
+C:\Users\bjoer\Desktop\ai_kursus\ProjektRadar\githubtest\AIKursus\ProjektRadar\AIKursus\ProjektRadar_v5\obj\Debug\net10.0\compressed\jmx36g2dzd-{0}-qpy3ycafyn-qpy3ycafyn.gz
 C:\Users\bjoer\Desktop\ai_kursus\ProjektRadar\githubtest\AIKursus\ProjektRadar\AIKursus\ProjektRadar_v5\obj\Debug\net10.0\compressed\taqecllpqm-{0}-b9228eflpl-b9228eflpl.gz
 C:\Users\bjoer\Desktop\ai_kursus\ProjektRadar\githubtest\AIKursus\ProjektRadar\AIKursus\ProjektRadar_v5\obj\Debug\net10.0\compressed\g3qo7my0st-{0}-2tj1sjhksk-2tj1sjhksk.gz
 C:\Users\bjoer\Desktop\ai_kursus\ProjektRadar\githubtest\AIKursus\ProjektRadar\AIKursus\ProjektRadar_v5\obj\Debug\net10.0\staticwebassets.build.json

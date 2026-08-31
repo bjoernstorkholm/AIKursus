@@ -241,6 +241,38 @@ button, a.button { min-height: 46px; }
 
 .footer { background: #1d2c30; color: #d8e1e3; }.footer-inner { min-height: 120px; display: flex; align-items: center; justify-content: space-between; gap: 30px; }.footer-brand { color: #fff; }.footer .radar-mark { border-color: #78bec6; }.footer p { font-size: 13px; color: #afbec1; }
 
+/* To-top floating button */
+.to-top {
+    position: fixed;
+    right: 22px;
+    bottom: 28px;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+    color: #fff;
+    border: 0;
+    box-shadow: 0 8px 22px rgba(18,110,121,.12);
+    cursor: pointer;
+    transition: transform .16s ease, opacity .16s ease;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 60;
+}
+.to-top svg { width: 18px; height: 18px; transform: translateY(2px); }
+.to-top.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+.to-top:hover { transform: translateY(-4px); }
+
+@media (max-width: 820px) {
+    .to-top { right: 14px; bottom: 18px; width: 44px; height: 44px; }
+}
+
 @media (max-width: 1100px) {
     .main-nav { display: none; }
     .hero { grid-template-columns: 1fr 1fr; gap: 35px; }
