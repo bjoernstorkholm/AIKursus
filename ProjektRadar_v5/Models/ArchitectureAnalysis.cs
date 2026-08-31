@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace ProjektRadar.Models;
 
-public sealed class ArchitectureAnalysis
+public record ArchitectureAnalysis
 {
     public int SpecificationCoverage { get; init; }
     public required string CoverageLevel { get; init; }

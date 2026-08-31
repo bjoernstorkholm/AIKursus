@@ -1,6 +1,6 @@
 namespace ProjektRadar.Models;
 
-public sealed record ArchitectureRequirement(
+public record ArchitectureRequirement(
     string Id,
     string Area,
     string Requirement,

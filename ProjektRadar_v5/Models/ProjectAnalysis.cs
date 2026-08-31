@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ProjektRadar.Models;
 
-public sealed class ProjectAnalysis
+public record ProjectAnalysis
 {
     public int RiskScore { get; init; }
     public required string RiskLevel { get; init; }

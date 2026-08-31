@@ -1,6 +1,6 @@
 namespace ProjektRadar.Models;
 
-public sealed record MissingDecision(
+public record MissingDecision(
     string Decision,
     string WhyItMatters,
     string Evidence,

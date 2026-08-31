@@ -2,7 +2,7 @@ using System;
 
 namespace ProjektRadar.Models;
 
-public sealed class ActionItem
+public record ActionItem
 {
     public int Id { get; init; }
     public required string Title { get; set; }

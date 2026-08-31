@@ -1,6 +1,6 @@
 namespace ProjektRadar.Models;
 
-public sealed class ArchitectureTask
+public record ArchitectureTask
 {
     public int Id { get; init; }
     public required string Title { get; set; }

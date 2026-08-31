@@ -1,6 +1,6 @@
 namespace ProjektRadar.Models;
 
-public sealed record ArchitectureQuestion(
+public record ArchitectureQuestion(
     string Question,
     string WhyItBlocks,
     string SuggestedOwner,

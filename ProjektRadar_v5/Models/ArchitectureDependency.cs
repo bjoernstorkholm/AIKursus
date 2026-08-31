@@ -1,6 +1,6 @@
 namespace ProjektRadar.Models;
 
-public sealed record ArchitectureDependency(
+public record ArchitectureDependency(
     string Component,
     string DependsOn,
     string Why,

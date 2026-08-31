@@ -1,6 +1,6 @@
 namespace ProjektRadar.Models;
 
-public sealed record DocumentConflict(
+public record DocumentConflict(
     string Title,
     string Summary,
     string SourceA,

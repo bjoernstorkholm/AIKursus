@@ -1,6 +1,6 @@
 namespace ProjektRadar.Models;
 
-public sealed record ArchitectureDecision(
+public record ArchitectureDecision(
     string Topic,
     string Decision,
     string Status,

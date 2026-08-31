@@ -2,7 +2,7 @@ using System;
 
 namespace ProjektRadar.Models;
 
-public sealed record TimelineItem(
+public record TimelineItem(
     DateTime Date,
     string Title,
     string Type,

@@ -1,6 +1,6 @@
 namespace ProjektRadar.Models;
 
-public sealed record ArchitectureConflict(
+public record ArchitectureConflict(
     string Title,
     string SourceA,
     string SourceB,

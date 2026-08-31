@@ -1,6 +1,6 @@
 namespace ProjektRadar.Models;
 
-public sealed record ArchitectureArea(
+public record ArchitectureArea(
     string Name,
     int Coverage,
     string Status,

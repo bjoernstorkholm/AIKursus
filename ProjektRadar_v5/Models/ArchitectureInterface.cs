@@ -1,6 +1,6 @@
 namespace ProjektRadar.Models;
 
-public sealed record ArchitectureInterface(
+public record ArchitectureInterface(
     string Name,
     string From,
     string To,
