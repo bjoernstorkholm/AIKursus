@@ -19,6 +19,41 @@
     --max: 1180px;
 }
 
+/* Accessibility helpers */
+.visually-hidden-focusable {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip: rect(1px, 1px, 1px, 1px) !important;
+    white-space: nowrap !important;
+}
+.skip-link {
+    position: fixed;
+    left: 12px;
+    top: 12px;
+    z-index: 80;
+    background: var(--accent);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 800;
+    transform: translateY(-120%);
+    transition: transform .16s ease, opacity .12s ease;
+    opacity: 0;
+}
+.skip-link:focus,
+.skip-link:active {
+    transform: translateY(0);
+    opacity: 1;
+    outline: 3px solid rgba(18,110,121,.18);
+}
+
+/* Layout shell */
+.app-shell { min-height: 100vh; display: flex; flex-direction: column; }
+main[role="main"] { flex: 1 1 auto; }
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
@@ -96,12 +131,14 @@ button, a.button { min-height: 46px; }
 .eyebrow, .section-kicker, .mini-label { color: var(--accent-dark); font-weight: 800; text-transform: uppercase; letter-spacing: .09em; font-size: 12px; }
 .hero h1 {
     margin: 13px 0 22px;
-    font-size: clamp(42px, 5vw, 68px);
+    font-size: clamp(42px, 5vw, 52px);
     line-height: 1.02;
     letter-spacing: -.045em;
     max-width: 800px;
     white-space: nowrap;
     font-weight: 790;
+    background: transparent;
+    box-shadow: none;
 }
 .hero-lead { max-width: 700px; font-size: 21px; color: #45565a; line-height: 1.55; }
 .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
@@ -138,7 +175,7 @@ button, a.button { min-height: 46px; }
 
 .section-heading, .analysis-header, .panel-heading { display: flex; justify-content: space-between; gap: 30px; align-items: flex-start; }
 .section-heading { margin-bottom: 28px; }
-.section-heading h2, .analysis-header h2 { margin: 6px 0 0; font-size: clamp(31px, 4vw, 43px); letter-spacing: -.035em; line-height: 1.1; }
+.section-heading h2, .analysis-header h2 { margin: 6px 0 0; font-size: clamp(31px, 4vw, 34px); letter-spacing: -.035em; line-height: 1.1; }
 .section-heading p { color: var(--muted); max-width: 780px; }
 .mode-badge { background: var(--accent-soft); color: var(--accent-dark); border: 1px solid #bdd9dd; border-radius: 999px; padding: 7px 12px; font-size: 13px; font-weight: 800; white-space: nowrap; }
 .mode-badge-strong { background: #0e5d66; color: white; border-color: #0e5d66; }
