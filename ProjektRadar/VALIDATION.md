@@ -18,9 +18,17 @@
 - `Home.razor` indeholder ikke længere SVG `<text>`-tags; radarlabels bruger `foreignObject`, så den tidligere RZ1023-fejl ikke genintroduceres.
 - Nye arkitekturtekstformater er tilføjet både til HTML-filvælgerens `accept` og serverens `AllowedExtensions`/`TextExtensions`.
 
-## Begrænsning
+## Build-verifikation
 
-`.NET SDK` er ikke installeret i leveringsmiljøet. Derfor er `dotnet restore`, `dotnet build` og `dotnet run` **ikke** udført her. Den endelige compile/runtime-verifikation skal derfor udføres på en maskine med .NET 10 SDK.
+`.NET SDK` er ikke installeret i leveringsmiljøet, så buildet kunne ikke køres her. Den 4. september 2026 bekræftede brugeren, at `dotnet build` er kørt manuelt og består med hjælpefunktionen implementeret.
+
+## Hjælp i topmenuen
+
+- Hjælpeknappen åbner og lukker et overflow-panel i topmenuen.
+- Hjælpeteksten tilpasses den valgte visning.
+- Trigger og panel er forbundet med `aria-expanded`, `aria-controls` og `aria-labelledby`.
+- Panelet har en navngivet luk-knap og er begrænset til viewportens bredde og højde.
+- På mobil reduceres triggeren til et kompakt spørgsmålstegnsikon.
 
 ## Layout refinement
 
