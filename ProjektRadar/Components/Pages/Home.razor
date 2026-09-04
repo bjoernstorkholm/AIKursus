@@ -36,34 +36,6 @@
         <a class="button button-secondary demo-download" href="@DemoZipPath" download>
             @(_mode == AppMode.ProjectControl ? "Download demofiler" : "Download arkitektfiler")
         </a>
-        <div class="help-menu">
-            <button class="help-trigger"
-                    type="button"
-                    aria-expanded="@_isHelpOpen.ToString().ToLowerInvariant()"
-                    aria-controls="helpPopover"
-                    title="Åbn hjælp"
-                    @onclick="ToggleHelp"
-                    @onkeydown="HandleHelpKeyDown">
-                <span class="help-trigger-icon" aria-hidden="true">?</span>
-                <span class="help-trigger-label">Hjælp</span>
-            </button>
-            @if (_isHelpOpen)
-            {
-                <aside id="helpPopover" class="help-popover" aria-labelledby="helpTitle">
-                    <div class="help-popover-header">
-                        <strong id="helpTitle">Sådan bruger du ProjektRadar</strong>
-                        <button class="help-close" type="button" aria-label="Luk hjælp" title="Luk hjælp" @onclick="CloseHelp">×</button>
-                    </div>
-                    <ol>
-                        <li>Vælg den visning, der passer til dit materiale.</li>
-                        <li>Upload dine filer under @(_mode == AppMode.ProjectControl ? "Dokumenter" : "Arkitektfiler").</li>
-                        <li>Gennemgå analysen, konflikterne og de foreslåede handlinger.</li>
-                    </ol>
-                    <p>Demoanalysen er lokal og sender ikke dine dokumentdata til eksterne tjenester.</p>
-                    <a class="help-link" href="#documents" @onclick="CloseHelp">Gå til upload</a>
-                </aside>
-            }
-        </div>
     </div>
 </header>
 
@@ -695,20 +667,8 @@
     private ProjectAnalysis? _analysis;
     private ArchitectureAnalysis? _architectureAnalysis;
     private bool _isAnalyzing;
-    private bool _isHelpOpen;
     private string? _uploadError;
 
-    private void ToggleHelp() => _isHelpOpen = !_isHelpOpen;
-
-    private void CloseHelp() => _isHelpOpen = false;
-
-    private void HandleHelpKeyDown(KeyboardEventArgs args)
-    {
-        if (args.Key == "Escape")
-        {
-            CloseHelp();
-        }
-    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -799,7 +759,6 @@
 
     private async Task OnModeChangedAsync()
     {
-        CloseHelp();
         _uploadedDocuments.Clear();
         _analysis = null;
         _architectureAnalysis = null;
