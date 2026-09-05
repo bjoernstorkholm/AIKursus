@@ -20,15 +20,14 @@
 
 ## Build-verifikation
 
-`.NET SDK` er ikke installeret i leveringsmiljøet, så buildet kunne ikke køres her. Den 4. september 2026 bekræftede brugeren, at `dotnet build` er kørt manuelt og består med hjælpefunktionen implementeret.
+Den 5. september 2026 bekræftede brugeren, at `dotnet restore`, `dotnet build` og `dotnet test` er kørt manuelt og består med den aktuelle ændring.
 
-## Hjælp i topmenuen
+## Topmenu uden hjælpefunktion
 
-- Hjælpeknappen åbner og lukker et overflow-panel i topmenuen.
-- Hjælpeteksten tilpasses den valgte visning.
-- Trigger og panel er forbundet med `aria-expanded`, `aria-controls` og `aria-labelledby`.
-- Panelet har en navngivet luk-knap og er begrænset til viewportens bredde og højde.
-- På mobil reduceres triggeren til et kompakt spørgsmålstegnsikon.
+- Hjælpeknappen og det tilhørende hjælpepanel er fjernet fra topmenuen.
+- Hjælpetekster, Blazor-tilstand, event-handler og dedikerede `.help-*`-stilarter er fjernet.
+- JavaScript-kilden består fortsat `node --check`.
+- CSS-klammer balancerer, og der er ingen resterende hjælpe-referencer i `Home.razor` eller `app.css`.
 
 ## Layout refinement
 

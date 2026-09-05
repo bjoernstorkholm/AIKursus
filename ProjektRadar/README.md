@@ -7,10 +7,6 @@ ProjektRadar er en Blazor Interactive Server-demo på .NET 10 med to arbejdsform
 
 Tilstanden vælges i dropdown-menuen **Visning** til venstre for hovedmenuen.
 
-## Hjælp i topmenuen
-
-Klik på **Hjælp** i topmenuen for at åbne en kort vejledning til den valgte visning. Hjælpepanelet kan lukkes med samme knap eller luk-ikonet i panelet.
-
 ## Kør på Windows
 
 1. Installer .NET 10 SDK fra Microsoft, hvis det ikke allerede er installeret.
