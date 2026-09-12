@@ -33,11 +33,20 @@
             <a href="#risk">@(_mode == AppMode.ProjectControl ? "Risikovurdering" : "Konflikter")</a>
             <a href="#actions">@(_mode == AppMode.ProjectControl ? "Handlingsplan" : "Udviklingsplan")</a>
         </nav>
+        <button class="button button-secondary test-menu-button" type="button" aria-haspopup="dialog" aria-controls="test-dialog" onclick="document.getElementById('test-dialog').showModal()">test</button>
         <a class="button button-secondary demo-download" href="@DemoZipPath" download>
             @(_mode == AppMode.ProjectControl ? "Download demofiler" : "Download arkitektfiler")
         </a>
     </div>
 </header>
+
+<dialog id="test-dialog" class="test-dialog" aria-labelledby="test-dialog-title">
+    <h2 id="test-dialog-title">test</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <form method="dialog">
+        <button class="button button-primary" type="submit" autofocus>Luk</button>
+    </form>
+</dialog>
 
 <main id="top">
     <section class="hero content-shell @(_mode == AppMode.ArchitectureOverview ? "hero-architecture" : string.Empty)">
