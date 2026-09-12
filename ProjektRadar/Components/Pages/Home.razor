@@ -33,35 +33,6 @@
             <a href="#risk">@(_mode == AppMode.ProjectControl ? "Risikovurdering" : "Konflikter")</a>
             <a href="#actions">@(_mode == AppMode.ProjectControl ? "Handlingsplan" : "Udviklingsplan")</a>
         </nav>
-        <div class="help-menu">
-            <button class="help-button"
-                    type="button"
-                    title="Vis hjælp"
-                    aria-expanded="@_isHelpOpen.ToString().ToLowerInvariant()"
-                    aria-controls="help-overflow"
-                    @onclick="ToggleHelp">
-                <span class="help-button-icon" aria-hidden="true">?</span>
-                <span class="help-button-label">Hjælp</span>
-            </button>
-            @if (_isHelpOpen)
-            {
-                <section id="help-overflow" class="help-overflow" role="region" aria-labelledby="help-title">
-                    <div class="help-overflow-header">
-                        <h2 id="help-title">Sådan bruger du ProjektRadar</h2>
-                        <button class="help-close" type="button" title="Luk hjælp" aria-label="Luk hjælp" @onclick="ToggleHelp">×</button>
-                    </div>
-                    @if (_mode == AppMode.ProjectControl)
-                    {
-                        <p>Download demofilerne eller vælg dine egne projektdokumenter. Når filerne er uploadet, vises analyse, risici og anbefalede handlinger automatisk på siden.</p>
-                    }
-                    else
-                    {
-                        <p>Download arkitektfilerne eller vælg dine egne specifikationer. Når filerne er uploadet, vises krav, konflikter, afhængigheder og udviklingsopgaver automatisk på siden.</p>
-                    }
-                    <p class="help-note">Denne demo behandler filerne lokalt i applikationen og sender dem ikke til eksterne tjenester.</p>
-                </section>
-            }
-        </div>
         <a class="button button-secondary demo-download" href="@DemoZipPath" download>
             @(_mode == AppMode.ProjectControl ? "Download demofiler" : "Download arkitektfiler")
         </a>
@@ -696,7 +667,6 @@
     private ProjectAnalysis? _analysis;
     private ArchitectureAnalysis? _architectureAnalysis;
     private bool _isAnalyzing;
-    private bool _isHelpOpen;
     private string? _uploadError;
 
 
@@ -793,12 +763,9 @@
         _analysis = null;
         _architectureAnalysis = null;
         _uploadError = null;
-        _isHelpOpen = false;
         await InvokeAsync(StateHasChanged);
         await JS.InvokeVoidAsync("projectRadar.scrollTo", "top");
     }
-
-    private void ToggleHelp() => _isHelpOpen = !_isHelpOpen;
 
     private string DemoZipPath => _mode == AppMode.ProjectControl
         ? "demo/Project-Aurora-Demofiler.zip"
