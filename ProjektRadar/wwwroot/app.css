@@ -96,9 +96,8 @@ button, a.button { min-height: 46px; }
 .radar-sweep { position: absolute; left: 50%; top: 50%; width: 46%; height: 2px; background: var(--accent); transform-origin: left center; transform: rotate(-35deg); }
 .radar-dot { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: var(--signal); right: 7px; top: 9px; }
 .main-nav { display: flex; align-items: center; gap: 24px; margin-left: auto; }
-.main-nav a, .main-nav .nav-help-button { text-decoration: none; color: #38484c; font-weight: 650; font-size: 15px; }
-.main-nav a:hover, .main-nav .nav-help-button:hover { color: var(--accent); }
-.nav-help-button { padding: 0; border: 0; background: transparent; cursor: pointer; white-space: nowrap; }
+.main-nav a { text-decoration: none; color: #38484c; font-weight: 650; font-size: 15px; }
+.main-nav a:hover { color: var(--accent); }
 .demo-download { margin-left: 4px; white-space: nowrap; }
 
 .help-menu {
@@ -541,7 +540,7 @@ button, a.button { min-height: 46px; }
 
 @media (max-width: 1180px) {
     .mode-switch-shell { margin-left: auto; min-width: 205px; }
-    .main-nav { gap: 15px; }.main-nav a, .main-nav .nav-help-button { font-size: 13px; }
+    .main-nav { gap: 15px; }.main-nav a { font-size: 13px; }
     .demo-download { padding-inline: 12px; font-size: 13px; }
 }
 @media (max-width: 1000px) {
@@ -599,7 +598,7 @@ body {
     gap: 20px;
 }
 
-.main-nav a, .main-nav .nav-help-button {
+.main-nav a {
     font-size: 14px;
 }
 
