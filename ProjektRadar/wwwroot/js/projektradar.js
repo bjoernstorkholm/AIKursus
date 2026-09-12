@@ -79,6 +79,11 @@ window.projectRadar = (() => {
         document.getElementById(elementId)?.scrollIntoView({ behavior: "smooth", block: "start" });
     };
 
+    const showDialog = (elementId) => {
+        const dialog = document.getElementById(elementId);
+        if (dialog && !dialog.open) dialog.showModal();
+    };
+
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
@@ -110,6 +115,7 @@ window.projectRadar = (() => {
         initializeDragDrop,
         downloadBase64,
         scrollTo,
+        showDialog,
         scrollToTop,
         initToTop
     };
