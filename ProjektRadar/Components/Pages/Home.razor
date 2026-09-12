@@ -32,11 +32,6 @@
             <a href="#analysis">@(_mode == AppMode.ProjectControl ? "Analyse" : "Specifikationer")</a>
             <a href="#risk">@(_mode == AppMode.ProjectControl ? "Risikovurdering" : "Konflikter")</a>
             <a href="#actions">@(_mode == AppMode.ProjectControl ? "Handlingsplan" : "Udviklingsplan")</a>
-            <button class="nav-help-button"
-                    type="button"
-                    aria-expanded="@_isHelpOpen.ToString().ToLowerInvariant()"
-                    aria-controls="help-overflow"
-                    @onclick="ToggleHelp">Hjælpe mig</button>
         </nav>
         <div class="help-menu">
             <button class="help-button"
