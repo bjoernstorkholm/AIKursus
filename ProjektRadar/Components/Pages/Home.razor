@@ -33,11 +33,26 @@
             <a href="#risk">@(_mode == AppMode.ProjectControl ? "Risikovurdering" : "Konflikter")</a>
             <a href="#actions">@(_mode == AppMode.ProjectControl ? "Handlingsplan" : "Udviklingsplan")</a>
         </nav>
+        <button type="button" class="help-menu-button" aria-haspopup="dialog" aria-controls="helpDialog"
+                onclick="document.getElementById('helpDialog').showModal()">hjælp</button>
         <a class="button button-secondary demo-download" href="@DemoZipPath" download>
             @(_mode == AppMode.ProjectControl ? "Download demofiler" : "Download arkitektfiler")
         </a>
     </div>
 </header>
+
+<dialog id="helpDialog" class="help-dialog" aria-labelledby="helpDialogTitle" aria-describedby="helpDialogText"
+        onclick="if (event.target === this) this.close()">
+    <div class="help-dialog-content">
+        <div class="help-dialog-header">
+            <h2 id="helpDialogTitle">hjælp</h2>
+            <form method="dialog">
+                <button type="submit" class="help-close" aria-label="Luk hjælp" autofocus>×</button>
+            </form>
+        </div>
+        <p id="helpDialogText">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+</dialog>
 
 <main id="top">
     <section class="hero content-shell @(_mode == AppMode.ArchitectureOverview ? "hero-architecture" : string.Empty)">
