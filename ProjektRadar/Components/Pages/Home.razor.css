@@ -1,0 +1,19 @@
+.brand {
+    order: 0;
+}
+
+.help-menu-button {
+    order: 1;
+}
+
+.mode-switch-shell {
+    order: 2;
+}
+
+.main-nav {
+    order: 3;
+}
+
+.demo-download {
+    order: 4;
+}
