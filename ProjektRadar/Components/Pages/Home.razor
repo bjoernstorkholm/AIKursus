@@ -18,6 +18,7 @@
             </span>
             <span>ProjektRadar</span>
         </a>
+        <button class="button button-secondary help-menu-button" type="button" aria-haspopup="dialog" aria-controls="test-dialog" onclick="document.getElementById('test-dialog').showModal()">test</button>
         <div class="mode-switch-shell">
             <span class="mode-switch-icon" aria-hidden="true">◎</span>
             <label for="modeSwitch">Visning</label>
@@ -42,6 +43,14 @@
 
 <dialog id="help-dialog" class="help-dialog" aria-labelledby="help-dialog-title">
     <h2 id="help-dialog-title">hjælp</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <form method="dialog">
+        <button class="button button-primary" type="submit" autofocus>Luk</button>
+    </form>
+</dialog>
+
+<dialog id="test-dialog" class="help-dialog" aria-labelledby="test-dialog-title">
+    <h2 id="test-dialog-title">test</h2>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
     <form method="dialog">
         <button class="button button-primary" type="submit" autofocus>Luk</button>
