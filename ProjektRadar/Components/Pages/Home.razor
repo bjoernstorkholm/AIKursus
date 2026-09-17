@@ -33,25 +33,19 @@
             <a href="#risk">@(_mode == AppMode.ProjectControl ? "Risikovurdering" : "Konflikter")</a>
             <a href="#actions">@(_mode == AppMode.ProjectControl ? "Handlingsplan" : "Udviklingsplan")</a>
         </nav>
-        <button type="button" class="help-menu-button" aria-haspopup="dialog" aria-controls="helpDialog"
-                onclick="document.getElementById('helpDialog').showModal()">hjælp</button>
+        <button class="button button-secondary help-menu-button" type="button" aria-haspopup="dialog" aria-controls="help-dialog" onclick="document.getElementById('help-dialog').showModal()">hjælp</button>
         <a class="button button-secondary demo-download" href="@DemoZipPath" download>
             @(_mode == AppMode.ProjectControl ? "Download demofiler" : "Download arkitektfiler")
         </a>
     </div>
 </header>
 
-<dialog id="helpDialog" class="help-dialog" aria-labelledby="helpDialogTitle" aria-describedby="helpDialogText"
-        onclick="if (event.target === this) this.close()">
-    <div class="help-dialog-content">
-        <div class="help-dialog-header">
-            <h2 id="helpDialogTitle">hjælp</h2>
-            <form method="dialog">
-                <button type="submit" class="help-close" aria-label="Luk hjælp" autofocus>×</button>
-            </form>
-        </div>
-        <p id="helpDialogText">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
+<dialog id="help-dialog" class="help-dialog" aria-labelledby="help-dialog-title">
+    <h2 id="help-dialog-title">hjælp</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <form method="dialog">
+        <button class="button button-primary" type="submit" autofocus>Luk</button>
+    </form>
 </dialog>
 
 <main id="top">
